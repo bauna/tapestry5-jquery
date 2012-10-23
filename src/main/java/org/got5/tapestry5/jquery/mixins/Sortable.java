@@ -27,39 +27,39 @@ import org.got5.tapestry5.jquery.JQueryEventConstants;
 @ImportJQueryUI({"jquery.ui.mouse", "jquery.ui.sortable"})
 @Import(library="classpath:org/got5/tapestry5/jquery/assets/mixins/sortable/sortable.js")
 public class Sortable {
-	
-	/**
-	 * JSONObject-type parameter, used by the Sortable JQuery-UI widget
-	 */
-	@Parameter
-	private JSONObject options;
-	
-	@Inject
+
+    /**
+     * JSONObject-type parameter, used by the Sortable JQuery-UI widget
+     */
+    @Parameter
+    private JSONObject options;
+
+    @Inject
     private JavaScriptSupport javaScriptSupport;
-	
-	@Inject
+
+    @Inject
     private ComponentResources resources;
-	
-	@Inject
-	private Request request;
-	
-	@InjectContainer
-	private ClientElement clientElement;
-	
-	@AfterRender
-	public void initJs(){
-		if(options == null) options = new JSONObject();
-		JSONObject opt = new JSONObject();
-		opt.put("id", clientElement.getClientId());
-		opt.put("url" , resources.createEventLink("sortable", null).toAbsoluteURI());
-		opt.put("params", options);
-		javaScriptSupport.addInitializerCall("sortable", opt);
-	}
-	
-	@OnEvent("sortable")	
-	public void sort(){
-		
-		String value = request.getParameter("list");
-		resources.triggerEvent(JQueryEventConstants.SORTABLE, new Object[] {value}, null);
-	}
+
+    @Inject
+    private Request request;
+
+    @InjectContainer
+    private ClientElement clientElement;
+
+    @AfterRender
+    public void initJs(){
+        if(options == null) options = new JSONObject();
+        JSONObject opt = new JSONObject();
+        opt.put("id", clientElement.getClientId());
+        opt.put("url", resources.createEventLink("sortable", (Object[]) null).toAbsoluteURI());
+        opt.put("params", options);
+        javaScriptSupport.addInitializerCall("sortable", opt);
+    }
+
+    @OnEvent("sortable")
+    public void sort(){
+
+        String value = request.getParameter("list");
+        resources.triggerEvent(JQueryEventConstants.SORTABLE, new Object[] {value}, null);
+    }
 }
